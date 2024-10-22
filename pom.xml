@@ -54,6 +54,20 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Spring Data JPA -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>2.7.12</version>
+        </dependency>
+
+        <!-- Hibernate (JPA Implementation) -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.6.15.Final</version>
+        </dependency>
+
         <!-- JPA and PostgreSQL -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -67,13 +81,18 @@
             <version>${postgresql.version}</version>
         </dependency>
 
-        <!-- JPA Implementation (Hibernate) -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.6.15.Final</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
         </dependency>
 
+        <!-- JPA Implementation (Hibernate) -->
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
+        </dependency>
         <!-- JUnit and Mockito for Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
