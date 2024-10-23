@@ -13,15 +13,17 @@ public class Utilisateur {
     private String adresse;
     private String email;
     private String telephone;
+    private String password;
     
     @OneToMany(mappedBy = "utilisateur")
     private List<Contrat> contrats;
 
-    public Utilisateur(String nom, String adresse, String email, String telephone) {
+    public Utilisateur(String nom, String adresse, String email, String telephone, String password) {
         this.nom = nom;
         this.adresse = adresse;
         this.email = email;
         this.telephone = telephone;
+        this.password = password;
     }
 
     public Utilisateur(){}
@@ -82,6 +84,15 @@ public class Utilisateur {
 
     public void setContrats(List<Contrat> contrats) {
         this.contrats = contrats;
+    }
+
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    public String getPassword(){
+        return password;
     }
 
 }

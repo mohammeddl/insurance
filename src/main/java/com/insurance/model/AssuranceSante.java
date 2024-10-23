@@ -43,7 +43,6 @@ public class AssuranceSante extends Devis {
         this.typeCouverture = typeCouverture;
     }
 
-
     @Override
     public void calculerDevis() {
         
