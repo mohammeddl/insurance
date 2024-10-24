@@ -13,13 +13,12 @@
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
         <spring.version>5.3.25</spring.version>
-        <tomcat.version>9.0.79</tomcat.version>
+        <tomcat.version>10.1.7</tomcat.version>
         <junit.jupiter.version>5.9.2</junit.jupiter.version>
         <postgresql.version>42.6.0</postgresql.version>
     </properties>
 
     <dependencies>
-
         <!-- Spring Core and Spring Web -->
         <dependency>
             <groupId>org.springframework</groupId>
