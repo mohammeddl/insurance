@@ -13,12 +13,13 @@
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
         <spring.version>5.3.25</spring.version>
-        <tomcat.version>10.1.7</tomcat.version>
+        <tomcat.version>9.0.79</tomcat.version>
         <junit.jupiter.version>5.9.2</junit.jupiter.version>
         <postgresql.version>42.6.0</postgresql.version>
     </properties>
 
     <dependencies>
+
         <!-- Spring Core and Spring Web -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -61,6 +62,12 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>2.7.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <!-- Hibernate (JPA Implementation) -->
@@ -122,6 +129,12 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.7.1</version>
         </dependency>
 
     </dependencies>
