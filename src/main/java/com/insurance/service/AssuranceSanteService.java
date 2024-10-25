@@ -49,4 +49,12 @@ public class AssuranceSanteService {
     public AssuranceSante findById(Long id) {
         return assuranceSanteRepository.findById(id).orElse(null);
     }
+
+    public void deleteAssuranceSante(Long id) {
+        assuranceSanteRepository.deleteById(id);
+    }
+
+    public boolean existsById(Long id) {
+        return assuranceSanteRepository.existsById(id);
+    }
 }

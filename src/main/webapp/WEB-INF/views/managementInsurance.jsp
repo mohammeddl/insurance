@@ -92,8 +92,8 @@
         </thead>
         <tbody>
             <c:forEach var="habitation" items="${assuranceHabitations}">
-                <tr>
-                    <td>${habitation.typeLogement}</td>
+                <tr class="text-center" >
+                    <td >${habitation.typeLogement}</td>
                     <td>${habitation.localisation}</td>
                     <td>${habitation.valeurBien}</td>
                     <td>
@@ -110,7 +110,7 @@
     <h3 class="text-xl font-bold mb-4">Assurance Santé</h3>
     <table class="min-w-full bg-white border mb-10">
         <thead>
-            <tr>
+            <tr class="text-center">
                 <th class="py-2 px-4">ID</th>
                 <th class="py-2 px-4">Coverage Type</th>
                 <th class="py-2 px-4">Maximum Coverage</th>
@@ -119,7 +119,7 @@
         </thead>
         <tbody>
             <c:forEach var="sante" items="${assuranceSantes}">
-                <tr>
+                <tr class="text-center">
                     <td>${sante.etatSante}</td>
                     <td>${sante.typeCouverture}</td>
                     <td>${sante.etatSante}</td>

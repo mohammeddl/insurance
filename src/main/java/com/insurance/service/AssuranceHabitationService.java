@@ -52,4 +52,12 @@ public class AssuranceHabitationService {
     public AssuranceHabitation findById(Long id) {
         return assuranceHabitationRepository.findById(id).orElse(null);
     }
+
+    public void deleteAssuranceHabitation(Long id) {
+        assuranceHabitationRepository.deleteById(id);
+    }
+
+    public boolean existsById(Long id) {
+        return assuranceHabitationRepository.existsById(id);
+    }
 }

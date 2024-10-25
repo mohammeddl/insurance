@@ -54,9 +54,21 @@
 
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded mt-4">Approve Contract</button>
     </form>
+   <form id="deleteForm" action="/insurance/deleteInsurance" method="post" style="display: inline;">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="insuranceId" value="${insuranceDetails.id}">
+    <button type="button" onclick="confirmDelete()" class="bg-red-500 text-white py-2 px-4 rounded mt-4 ml-4">Cancel</button>
+</form>
 </div>
 
 <script>
+
+function confirmDelete() {
+        if (confirm("Are you sure you want to cancel this insurance ?")) {
+            document.getElementById("deleteForm").submit();
+        }
+    }
+
     const today = new Date();
     const endDate = new Date();
     endDate.setDate(today.getDate() + 30);

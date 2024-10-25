@@ -54,5 +54,12 @@ public class AssuranceAutomobileService {
         return assuranceAutomobileRepository.findById(id).orElse(null);
     }
 
+    public void deleteAssuranceAutomobile(Long id) {
+        assuranceAutomobileRepository.deleteById(id);
+    }
+
+    public boolean existsById(Long id) {
+        return assuranceAutomobileRepository.existsById(id);
+    }
 
 }

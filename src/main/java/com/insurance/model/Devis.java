@@ -18,6 +18,7 @@ public abstract class Devis {
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
 
+
     public Devis(String typeAssurance, double montant, Utilisateur utilisateur) {
         this.typeAssurance = typeAssurance;
         this.montant = montant;

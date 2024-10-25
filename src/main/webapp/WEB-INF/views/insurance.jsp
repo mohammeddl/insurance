@@ -102,13 +102,13 @@
         
         if (type === 'Automobile') {
             detailsDiv.innerHTML = `
-                <label for="ageConducteur">Age du conducteur:</label>
+                <label for="ageConducteur">Driver's age:</label>
                 <input type="number" id="ageConducteur" name="ageConducteur" required class="border rounded px-3 py-2"><br><br>
                 
-                <label for="typeVehicule">Type de véhicule:</label>
+                <label for="typeVehicule">Vehicle type:</label>
                 <input type="text" id="typeVehicule" name="typeVehicule" required class="border rounded px-3 py-2"><br><br>
 
-                <label for="utilisationVehicule">Utilisation du véhicule:</label>
+                <label for="utilisationVehicule">Use of vehicle:</label>
                 <input type="text" id="utilisationVehicule" name="utilisationVehicule" required class="border rounded px-3 py-2"><br><br>
 
                 <label for="historiqueConduite">Historique de conduite:</label>
@@ -116,16 +116,16 @@
             `;
         } else if (type === 'Habitation') {
             detailsDiv.innerHTML = `
-                <label for="valeurBien">Valeur du bien:</label>
+                <label for="valeurBien">Value of the property:</label>
                 <input type="number" id="valeurBien" name="valeurBien" required class="border rounded px-3 py-2"><br><br>
 
-                <label for="typeLogement">Type de logement:</label>
+                <label for="typeLogement">Type of accommodation:</label>
                 <input type="text" id="typeLogement" name="typeLogement" required class="border rounded px-3 py-2"><br><br>
 
-                <label for="localisation">Localisation:</label>
+                <label for="localisation">Location:</label>
                 <input type="text" id="localisation" name="localisation" required class="border rounded px-3 py-2"><br><br>
 
-                <label for="systemeSecurite">Système de sécurité:</label>
+                <label for="systemeSecurite">Security System:</label>
                 <input type="checkbox" id="systemeSecurite" name="systemeSecurite"><br><br>
             `;
         } else if (type === 'Sante') {
@@ -133,10 +133,10 @@
                 <label for="ageAssure">Age:</label>
                 <input type="number" id="ageAssure" name="ageAssure" required class="border rounded px-3 py-2"><br><br>
 
-                <label for="etatSante">Etat de santé:</label>
+                <label for="etatSante">Health status:</label>
                 <input type="text" id="etatSante" name="etatSante" required class="border rounded px-3 py-2"><br><br>
 
-                <label for="typeCouverture">Type de couverture:</label>
+                <label for="typeCouverture">Type of cover:</label>
                 <input type="text" id="typeCouverture" name="typeCouverture" required class="border rounded px-3 py-2"><br><br>
             `;
         }

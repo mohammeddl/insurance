@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,6 +79,7 @@ public class DevisController {
         model.addAttribute("finalPrice", finalPrice);
         model.addAttribute("insuranceType", insuranceType);
 
+
         return "contrat";
     }
 
@@ -128,8 +130,51 @@ public class DevisController {
     }
 
     @GetMapping("/home")
-    public String showInsuranceDetails(Model model) {
+    public String showInsuranceDetails(HttpSession session, Model model) {
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("loggedInUser");
+        if (utilisateur == null) {
+            return "redirect:/insurance/utilisateur/login";
+        }else
         return "insurance";
+    }
+
+    @PostMapping("/deleteInsurance")
+    public String deleteInsurance(
+            @RequestParam("insuranceId") Long insuranceId,
+            Model model) {
+    
+        String insuranceType = findInsuranceTypeById(insuranceId);
+    
+        switch (insuranceType) {
+            case "Automobile":
+                assuranceAutomobileService.deleteAssuranceAutomobile(insuranceId);
+                break;
+            case "Habitation":
+                assuranceHabitationService.deleteAssuranceHabitation(insuranceId);
+                break;
+            case "Sante":
+                assuranceSanteService.deleteAssuranceSante(insuranceId);
+                break;
+            default:
+                model.addAttribute("error", "Unknown insurance type.");
+                return "managementInsurance";
+        }
+    
+        model.addAttribute("success", "Insurance deleted successfully.");
+        return "redirect:/insurance/home";
+    }
+    
+
+    public String findInsuranceTypeById(Long insuranceId) {
+        if (assuranceAutomobileService.existsById(insuranceId)) {
+            return "Automobile";
+        } else if (assuranceHabitationService.existsById(insuranceId)) {
+            return "Habitation";
+        } else if (assuranceSanteService.existsById(insuranceId)) {
+            return "Sante";
+        } else {
+            return "Unknown";
+        }
     }
 
 }
