@@ -40,7 +40,7 @@ public class UtilisateurController {
     public String loginUser(@ModelAttribute("utilisateur") Utilisateur utilisateur, Model model) {
         if (utilisateurService.loginByUser(utilisateur.getEmail(), utilisateur.getPassword()) != null) {
             model.addAttribute("message", "Login successful!");
-            return "index";
+            return "insurance";
         } else {
             model.addAttribute("message", "Login failed!");
             return "login";
