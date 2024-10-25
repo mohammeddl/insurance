@@ -1,6 +1,7 @@
 package com.insurance.model;
 
 import javax.persistence.*;
+
 import java.util.Date;
 
 @Entity
@@ -12,13 +13,17 @@ public class Contrat {
     private Date dateDebut;
     private Date dateFin;
     private double montantMensuel;
+    
 
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
 
     @OneToOne
+    @JoinColumn(name = "devis_id")
     private Devis devis;
+
+
 
     public Contrat(Date dateDebut, Date dateFin, double montantMensuel, Utilisateur utilisateur, Devis devis) {
         this.dateDebut = dateDebut;

@@ -18,6 +18,9 @@ public class Utilisateur {
     @OneToMany(mappedBy = "utilisateur")
     private List<Contrat> contrats;
 
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Devis> devis;
+
     public Utilisateur(String nom, String adresse, String email, String telephone, String password) {
         this.nom = nom;
         this.adresse = adresse;

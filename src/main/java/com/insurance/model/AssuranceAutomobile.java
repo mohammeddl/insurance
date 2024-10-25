@@ -9,8 +9,8 @@ public class AssuranceAutomobile extends Devis {
     private String utilisationVehicule;
     private String historiqueConduite;
 
-    public AssuranceAutomobile(int ageConducteur, String typeVehicule, String utilisationVehicule, String historiqueConduite, String typeAssurance, double montant) {
-        super(typeAssurance, montant);
+    public AssuranceAutomobile(int ageConducteur, String typeVehicule, String utilisationVehicule, String historiqueConduite, String typeAssurance, double montant, Utilisateur utilisateur) {
+        super(typeAssurance, montant, utilisateur);
         this.ageConducteur = ageConducteur;
         this.typeVehicule = typeVehicule;
         this.utilisationVehicule = utilisationVehicule;
@@ -20,6 +20,9 @@ public class AssuranceAutomobile extends Devis {
     public AssuranceAutomobile() {
     }
 
+    public String getType() {
+        return "Automobile";
+    }
     @Override
     public void calculerDevis() {
         

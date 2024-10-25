@@ -9,8 +9,8 @@ public class AssuranceHabitation extends Devis {
     private String localisation;
     private boolean systemeSecurite;
 
-    public AssuranceHabitation(double valeurBien, String typeLogement, String localisation, boolean systemeSecurite, String typeAssurance, double montant) {
-        super(typeAssurance, montant);
+    public AssuranceHabitation(double valeurBien, String typeLogement, String localisation, boolean systemeSecurite, String typeAssurance, double montant, Utilisateur utilisateur) {
+        super(typeAssurance, montant, utilisateur);
         this.valeurBien = valeurBien;
         this.typeLogement = typeLogement;
         this.localisation = localisation;
@@ -18,6 +18,10 @@ public class AssuranceHabitation extends Devis {
     }
 
     public AssuranceHabitation() {
+    }
+
+    public String getType() {
+        return "Habitation";
     }
 
     @Override

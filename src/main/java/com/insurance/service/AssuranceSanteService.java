@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.insurance.model.AssuranceSante;
 import com.insurance.repository.AssuranceSanteRepository;
 
+import java.util.List;
+
 @Service
 public class AssuranceSanteService {
 
@@ -34,5 +36,17 @@ public class AssuranceSanteService {
         assuranceSanteRepository.save(sante);
         
         return base; 
+    }
+
+    public void updateAssuranceSante(AssuranceSante sante) {
+        assuranceSanteRepository.save(sante);
+    }
+
+    public List<AssuranceSante> findAssuranceSanteByUtilisateur_Id(Long utilisateur_id) {
+        return assuranceSanteRepository.findByUtilisateur_Id(utilisateur_id);
+    }
+
+    public AssuranceSante findById(Long id) {
+        return assuranceSanteRepository.findById(id).orElse(null);
     }
 }

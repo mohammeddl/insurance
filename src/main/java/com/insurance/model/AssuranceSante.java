@@ -9,14 +9,18 @@ public class AssuranceSante extends Devis {
     private String typeCouverture;
 
 
-    public AssuranceSante(int ageAssure, String etatSante, String typeCouverture, String typeAssurance, double montant) {
-        super(typeAssurance, montant);
+    public AssuranceSante(int ageAssure, String etatSante, String typeCouverture, String typeAssurance, double montant, Utilisateur utilisateur) {
+        super(typeAssurance, montant, utilisateur);
         this.ageAssure = ageAssure;
         this.etatSante = etatSante;
         this.typeCouverture = typeCouverture;
     }
 
     public AssuranceSante() {
+    }
+
+    public String getType() {
+        return "Sante";
     }
 
     public int getAgeAssure() {
