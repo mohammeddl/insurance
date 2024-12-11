@@ -16,21 +16,24 @@ public class UtilisateurService {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
+    @Autowired
+    private ActivityLoggerService activityLoggerService;
+
     public Utilisateur getLoggedInUser() {
-        return utilisateurRepository.findById(1L).orElse(null);  
+        return utilisateurRepository.findById(1L).orElse(null);
     }
 
     public Utilisateur getAuthenticatedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String username = ((UserDetails) principal).getUsername();
-            return findByEmail(username); 
+            return findByEmail(username);
         }
         return null;
     }
 
     public Utilisateur findByEmail(String email) {
-        return utilisateurRepository.findByEmail(email); 
+        return utilisateurRepository.findByEmail(email);
     }
 
     public Utilisateur registerUser(Utilisateur utilisateur) {
@@ -40,10 +43,10 @@ public class UtilisateurService {
 
     public Utilisateur loginByUser(String email, String password) {
         Utilisateur utilisateur = utilisateurRepository.findByEmail(email);
-        if (utilisateur != null && utilisateur.getPassword().equals(password)) {
+        if (utilisateur != null && new BCryptPasswordEncoder().matches(password, utilisateur.getPassword())) {
+            activityLoggerService.logActivity(utilisateur.getEmail(), "User logged in");
             return utilisateur;
         }
         return null;
-
     }
 }

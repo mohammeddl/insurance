@@ -27,28 +27,19 @@ public class AppConfig {
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        String dbUrl = System.getenv().getOrDefault("SPRING_DATASOURCE_URL",
-                "jdbc:postgresql://postgres:5432/insurance_db");
-        String dbUsername = System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "postgres");
-        String dbPassword = System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "0074");
-
-        dataSource.setUrl(dbUrl);
-        dataSource.setUsername(dbUsername);
-        dataSource.setPassword(dbPassword);
-
-        // Add connection testing and pooling properties
-        dataSource.setValidationQuery("SELECT 1");
-        dataSource.setTestOnBorrow(true);
-        dataSource.setTestOnReturn(true);
-        dataSource.setTestWhileIdle(true);
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/insurance_db");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("0074");
         return dataSource;
     }
 
+    // EntityManagerFactory Configuration
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean emFactory = new LocalContainerEntityManagerFactoryBean();
         emFactory.setDataSource(dataSource);
-        emFactory.setPackagesToScan("com.insurance.model");
+        emFactory.setPackagesToScan("com.insurance.model"); // Package containing your entities
+
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         emFactory.setJpaVendorAdapter(vendorAdapter);
         emFactory.setJpaProperties(hibernateProperties());
@@ -67,11 +58,6 @@ public class AppConfig {
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("logging.level.org.springfremework.security", "DEBUG");
         properties.setProperty("logging.level.org.springframework", "DEBUG");
-
-        properties.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
-        properties.setProperty("hibernate.connection.url", System.getenv().getOrDefault("SPRING_DATASOURCE_URL", "jdbc:postgresql://postgres:5432/insurance_db"));
-        properties.setProperty("hibernate.connection.username", System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "postgres"));
-        properties.setProperty("hibernate.connection.password", System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "0074"));
         return properties;
     }
 }
