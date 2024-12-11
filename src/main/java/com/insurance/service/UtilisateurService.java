@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.insurance.model.Utilisateur;
 import com.insurance.repository.UtilisateurRepository;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class UtilisateurService {
@@ -33,6 +34,7 @@ public class UtilisateurService {
     }
 
     public Utilisateur registerUser(Utilisateur utilisateur) {
+        utilisateur.setPassword(new BCryptPasswordEncoder().encode(utilisateur.getPassword()));
         return utilisateurRepository.save(utilisateur);
     }
 
