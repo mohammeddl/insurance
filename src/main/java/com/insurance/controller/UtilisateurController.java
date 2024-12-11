@@ -37,20 +37,14 @@ public class UtilisateurController {
         return "login";
     }
 
-    @GetMapping("/login")
-    public String showLoginForm(Model model) {
-        return "login";
-    }
+    // @GetMapping("/login")
+    // public String showLoginForm(Model model) {
+    //     return "login";
+    // }
 
-    @PostMapping("/login")
-    public String loginUser(@ModelAttribute("utilisateur") Utilisateur utilisateur, Model model) {
-        if (utilisateurService.loginByUser(utilisateur.getEmail(), utilisateur.getPassword()) != null) {
-            model.addAttribute("message", "Login successful!");
-            return "insurance";
-        } else {
-            model.addAttribute("message", "Login failed!");
-            return "login";
-        }
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login"; 
     }
 
 }

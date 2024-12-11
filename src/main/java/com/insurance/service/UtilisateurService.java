@@ -1,6 +1,9 @@
 package com.insurance.service;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,32 +11,28 @@ import org.springframework.stereotype.Service;
 import com.insurance.model.Utilisateur;
 import com.insurance.repository.UtilisateurRepository;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
-public class UtilisateurService {
+public class UtilisateurService implements UserDetailsService {
 
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
-    @Autowired
-    private ActivityLoggerService activityLoggerService;
-
-    public Utilisateur getLoggedInUser() {
-        return utilisateurRepository.findById(1L).orElse(null);
-    }
-
-    public Utilisateur getAuthenticatedUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String username = ((UserDetails) principal).getUsername();
-            return findByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Utilisateur utilisateur = utilisateurRepository.findByEmail(email);
+        if (utilisateur == null) {
+            throw new UsernameNotFoundException("User not found");
         }
-        return null;
-    }
-
-    public Utilisateur findByEmail(String email) {
-        return utilisateurRepository.findByEmail(email);
+        System.out.println("User found"+utilisateur.getEmail());
+        return new org.springframework.security.core.userdetails.User(
+                utilisateur.getEmail(),
+                utilisateur.getPassword(),
+                utilisateur.getRoles().stream()
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
+                        .collect(Collectors.toList()));
     }
 
     public Utilisateur registerUser(Utilisateur utilisateur) {
@@ -41,12 +40,4 @@ public class UtilisateurService {
         return utilisateurRepository.save(utilisateur);
     }
 
-    public Utilisateur loginByUser(String email, String password) {
-        Utilisateur utilisateur = utilisateurRepository.findByEmail(email);
-        if (utilisateur != null && new BCryptPasswordEncoder().matches(password, utilisateur.getPassword())) {
-            activityLoggerService.logActivity(utilisateur.getEmail(), "User logged in");
-            return utilisateur;
-        }
-        return null;
-    }
 }
