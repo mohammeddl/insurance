@@ -1,10 +1,12 @@
 package com.insurance.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.insurance.model.AssuranceAutomobile;
 import com.insurance.repository.AssuranceAutomobileRepository;
+import java.util.List;
 
 @Service
 public class AssuranceAutomobileService {
@@ -39,4 +41,25 @@ public class AssuranceAutomobileService {
         
         return base; 
     }
+
+    public void updateAssuranceAutomobile(AssuranceAutomobile auto) {
+        assuranceAutomobileRepository.save(auto);
+    }
+
+    public List<AssuranceAutomobile> findAssuranceAutomobileByUtilisateur_Id(Long utilisateur_id) {
+        return assuranceAutomobileRepository.findByUtilisateur_Id(utilisateur_id);
+    }
+
+    public AssuranceAutomobile findById(Long id) {
+        return assuranceAutomobileRepository.findById(id).orElse(null);
+    }
+
+    public void deleteAssuranceAutomobile(Long id) {
+        assuranceAutomobileRepository.deleteById(id);
+    }
+
+    public boolean existsById(Long id) {
+        return assuranceAutomobileRepository.existsById(id);
+    }
+
 }

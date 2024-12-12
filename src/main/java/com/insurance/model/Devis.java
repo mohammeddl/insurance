@@ -11,12 +11,30 @@ public abstract class Devis {
 
     private String typeAssurance;
     private double montant;
+    @OneToOne(mappedBy = "devis", cascade = CascadeType.ALL)
+    private Contrat contrat;
+    
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur utilisateur;
 
-    public Devis(String typeAssurance, double montant) {
+
+    public Devis(String typeAssurance, double montant, Utilisateur utilisateur) {
         this.typeAssurance = typeAssurance;
         this.montant = montant;
+        this.utilisateur = utilisateur;
     }
     public Devis() {
+    }
+
+    public abstract String getType();
+
+    public Contrat getContrat() {
+        return contrat;
+    }
+    
+    public void setContrat(Contrat contrat) {
+        this.contrat = contrat;
     }
 
     public abstract void calculerDevis();
@@ -43,6 +61,14 @@ public abstract class Devis {
 
     public void setMontant(double montant) {
         this.montant = montant;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     

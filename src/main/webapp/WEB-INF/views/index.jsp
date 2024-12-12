@@ -15,7 +15,7 @@
 <header class="relative bg-white">
     <div class="flex items-center justify-between h-24 px-8 mx-auto max-w-7xl">
 
-        <a href="#_" class="relative z-10 flex items-center w-auto text-2xl font-extrabold leading-none text-black select-none">
+        <a href="/" class="relative z-10 flex items-center w-auto text-2xl font-extrabold leading-none text-black select-none">
             tails.
         </a>
 
@@ -45,7 +45,7 @@
                 </span>
             </a>
             <div class="w-0 h-5 border border-r border-gray-200"></div>
-            <a href="#_" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" class="relative inline-block text-base font-bold text-gray-700 uppercase transition duration-150 ease hover:text-gray-900white">
+            <a href="/insurance/utilisateur/login" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" class="relative inline-block text-base font-bold text-gray-700 uppercase transition duration-150 ease hover:text-gray-900white">
                 <span class="block">Login</span>
                 <span class="absolute bottom-0 left-0 inline-block w-full h-1 -mb-1 overflow-hidden">
                     <span class="absolute inset-0 inline-block w-full h-1 h-full transform translate-x-0 border-t-2 border-gray-500"></span>
@@ -54,7 +54,7 @@
                     <span x-show="hover" class="absolute inset-0 inline-block w-full h-1 h-full transform border-t-2 border-blue-600" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-out duration-300" x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"></span>
                 </span>
             </a>
-            <a href="#_" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <a href="/insurance/utilisateur/register" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Signup
             </a>
         </nav>

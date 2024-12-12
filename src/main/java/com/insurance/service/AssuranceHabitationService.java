@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.insurance.model.AssuranceHabitation;
 import com.insurance.repository.AssuranceHabitationRepository;
+import java.util.List;
 
 @Service
 public class AssuranceHabitationService {
@@ -38,5 +39,25 @@ public class AssuranceHabitationService {
         assuranceHabitationRepository.save(habitation);
         
         return base; 
+    }
+
+    public void updateAssuranceHabitation(AssuranceHabitation habitation) {
+        assuranceHabitationRepository.save(habitation);
+    }
+
+    public List<AssuranceHabitation> findAssuranceHabitationByUtilisateur_Id(Long utilisateur_id) {
+        return assuranceHabitationRepository.findByUtilisateur_Id(utilisateur_id);
+    }
+
+    public AssuranceHabitation findById(Long id) {
+        return assuranceHabitationRepository.findById(id).orElse(null);
+    }
+
+    public void deleteAssuranceHabitation(Long id) {
+        assuranceHabitationRepository.deleteById(id);
+    }
+
+    public boolean existsById(Long id) {
+        return assuranceHabitationRepository.existsById(id);
     }
 }
