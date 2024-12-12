@@ -25,7 +25,7 @@ import java.util.Properties;
 @ComponentScan(basePackages = "com.insurance")
 public class AppConfig {
 
-    // DataSource Configuration
+
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
@@ -36,12 +36,12 @@ public class AppConfig {
         return dataSource;
     }
 
-    // EntityManagerFactory Configuration
+
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean emFactory = new LocalContainerEntityManagerFactoryBean();
         emFactory.setDataSource(dataSource);
-        emFactory.setPackagesToScan("com.insurance.model"); // Package containing your entities
+        emFactory.setPackagesToScan("com.insurance.model"); 
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         emFactory.setJpaVendorAdapter(vendorAdapter);
@@ -49,7 +49,7 @@ public class AppConfig {
         return emFactory;
     }
 
-    // TransactionManager Configuration
+
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
@@ -60,6 +60,8 @@ public class AppConfig {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.show_sql", "true");
+        properties.setProperty("logging.level.org.springframework.security", "DEBUG");
+        properties.setProperty("logging.level.org.springframework", "DEBUG");
         return properties;
     }
 

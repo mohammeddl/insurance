@@ -13,12 +13,14 @@ import com.insurance.service.AssuranceSanteService;
 import com.insurance.service.ContratService;
 import com.insurance.service.DevisService;
 import com.insurance.service.DocumentService;
+import com.insurance.service.UtilisateurService;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -52,9 +54,11 @@ public class ContratController {
     @Autowired
     private AssuranceSanteService assuranceSanteService;
 
+    @Autowired
+    private UtilisateurService utilisateurService;
+
     @PostMapping("/create")
     public String createContrat(
-            HttpSession session,
             @RequestParam("devisId") Long devisId,
             @RequestParam("dateDebut") String startDateStr,
             @RequestParam("dateFin") String endDateStr,
@@ -78,7 +82,9 @@ public class ContratController {
             return "insurance";
         }
 
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("loggedInUser");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Utilisateur utilisateur = utilisateurService.findByEmail(email);
         Contrat contrat = new Contrat(dateDebut, dateFin, devis.getMontant(), utilisateur, devis);
         contratService.createContrat(contrat);
 
@@ -107,8 +113,10 @@ public class ContratController {
     }
 
     @GetMapping("/all")
-public String showAllContracts(HttpSession session, Model model) {
-    Utilisateur utilisateur = (Utilisateur) session.getAttribute("loggedInUser");
+public String showAllContracts( Model model) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String email = authentication.getName();
+    Utilisateur utilisateur = utilisateurService.findByEmail(email);
     if (utilisateur != null) {
         List<AssuranceAutomobile> assuranceAutomobiles = assuranceAutomobileService.findAssuranceAutomobileByUtilisateur_Id(utilisateur.getId());
         List<AssuranceHabitation> assuranceHabitations = assuranceHabitationService.findAssuranceHabitationByUtilisateur_Id(utilisateur.getId());

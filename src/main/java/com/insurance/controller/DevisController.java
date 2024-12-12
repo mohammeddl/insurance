@@ -4,6 +4,7 @@ import com.insurance.model.AssuranceAutomobile;
 import com.insurance.model.AssuranceHabitation;
 import com.insurance.model.AssuranceSante;
 import com.insurance.model.Utilisateur;
+import com.insurance.service.ActivityLoggerService;
 import com.insurance.service.AssuranceAutomobileService;
 import com.insurance.service.AssuranceHabitationService;
 import com.insurance.service.AssuranceSanteService;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +40,9 @@ public class DevisController {
     @Autowired
     private UtilisateurService utilisateurService;
 
+    @Autowired
+    private ActivityLoggerService activityLoggerService;
+
     @PostMapping("/contrat/create")
     public String createContrat(
             @RequestParam String insuranceType,
@@ -54,7 +60,12 @@ public class DevisController {
             @RequestParam(required = false) String typeCouverture,
             Model model) {
 
-        Utilisateur utilisateur = (Utilisateur) session.getAttribute("loggedInUser");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/insurance/utilisateur/login";
+        }
+        String email = authentication.getName();
+        Utilisateur utilisateur = utilisateurService.findByEmail(email);
         double finalPrice = 0.0;
         if (utilisateur == null) {
             return "/insurance/utilisateur/login";
@@ -64,21 +75,26 @@ public class DevisController {
             AssuranceAutomobile auto = new AssuranceAutomobile(ageConducteur, typeVehicule, utilisationVehicule,
                     historiqueConduite, "Automobile", 0, utilisateur);
             finalPrice = assuranceAutomobileService.calculerDevisAutomobile(auto);
+            activityLoggerService.logActivity("User " + utilisateur.getEmail() + " created a new automobile insurance.",
+                    "Automobile");
             model.addAttribute("insuranceDetails", auto);
         } else if (insuranceType.equalsIgnoreCase("Habitation")) {
             AssuranceHabitation habitation = new AssuranceHabitation(valeurBien, typeLogement, localisation,
                     systemeSecurite, "Habitation", 0, utilisateur);
             finalPrice = assuranceHabitationService.calculerDevisHabitation(habitation);
+            activityLoggerService.logActivity("User " + utilisateur.getEmail() + " created a new habitation insurance.",
+                    "Habitation");
             model.addAttribute("insuranceDetails", habitation);
         } else if (insuranceType.equalsIgnoreCase("Sante")) {
             AssuranceSante sante = new AssuranceSante(ageAssure, etatSante, typeCouverture, "Sante", 0, utilisateur);
             finalPrice = assuranceSanteService.calculerDevisSante(sante);
+            activityLoggerService.logActivity("User " + utilisateur.getEmail() + " created a new health insurance.",
+                    "Sante");
             model.addAttribute("insuranceDetails", sante);
         }
 
         model.addAttribute("finalPrice", finalPrice);
         model.addAttribute("insuranceType", insuranceType);
-
 
         return "contrat";
     }
@@ -99,6 +115,7 @@ public class DevisController {
                     automobile.setUtilisationVehicule(formParams.get("utilisationVehicule"));
                     automobile.setHistoriqueConduite(formParams.get("historiqueConduite"));
                     assuranceAutomobileService.updateAssuranceAutomobile(automobile);
+                    activityLoggerService.logActivity("User updated automobile insurance.", "Automobile");
                 }
                 break;
             case "Habitation":
@@ -109,6 +126,7 @@ public class DevisController {
                     habitation.setLocalisation(formParams.get("localisation"));
                     habitation.setSystemeSecurite(Boolean.parseBoolean(formParams.get("systemeSecurite")));
                     assuranceHabitationService.updateAssuranceHabitation(habitation);
+                    activityLoggerService.logActivity("User updated habitation insurance.", "Habitation");
                 }
                 break;
             case "Sante":
@@ -118,6 +136,7 @@ public class DevisController {
                     sante.setEtatSante(formParams.get("etatSante"));
                     sante.setTypeCouverture(formParams.get("typeCouverture"));
                     assuranceSanteService.updateAssuranceSante(sante);
+                    activityLoggerService.logActivity("User updated health insurance.", "Sante");
                 }
                 break;
             default:
@@ -134,17 +153,17 @@ public class DevisController {
         Utilisateur utilisateur = (Utilisateur) session.getAttribute("loggedInUser");
         if (utilisateur == null) {
             return "redirect:/insurance/utilisateur/login";
-        }else
-        return "insurance";
+        } else
+            return "insurance";
     }
 
     @PostMapping("/deleteInsurance")
     public String deleteInsurance(
             @RequestParam("insuranceId") Long insuranceId,
             Model model) {
-    
+
         String insuranceType = findInsuranceTypeById(insuranceId);
-    
+
         switch (insuranceType) {
             case "Automobile":
                 assuranceAutomobileService.deleteAssuranceAutomobile(insuranceId);
@@ -159,11 +178,10 @@ public class DevisController {
                 model.addAttribute("error", "Unknown insurance type.");
                 return "managementInsurance";
         }
-    
+
         model.addAttribute("success", "Insurance deleted successfully.");
         return "redirect:/insurance/home";
     }
-    
 
     public String findInsuranceTypeById(Long insuranceId) {
         if (assuranceAutomobileService.existsById(insuranceId)) {

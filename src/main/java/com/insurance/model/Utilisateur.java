@@ -1,25 +1,32 @@
 package com.insurance.model;
 
 import javax.persistence.*;
+
+import com.insurance.enums.Role;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private String nom;
     private String adresse;
     private String email;
     private String telephone;
     private String password;
-    
-    @OneToMany(mappedBy = "utilisateur")
-    private List<Contrat> contrats;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "utilisateur_roles", joinColumns = @JoinColumn(name = "utilisateur_id"))
+    @Column(name = "roles")
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "utilisateur")
-    private List<Devis> devis;
+    private List<Contrat> contrats;
 
     public Utilisateur(String nom, String adresse, String email, String telephone, String password) {
         this.nom = nom;
@@ -29,16 +36,7 @@ public class Utilisateur {
         this.password = password;
     }
 
-    public Utilisateur(){}
-
-    // Getters and Setters
-
-    public void creerCompte() {
-       
-    }
-
-    public void seConnecter() {
-        
+    public Utilisateur() {
     }
 
     public Long getId() {
@@ -81,21 +79,20 @@ public class Utilisateur {
         this.telephone = telephone;
     }
 
-    public List<Contrat> getContrats() {
-        return contrats;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContrats(List<Contrat> contrats) {
-        this.contrats = contrats;
-    }
-
-
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getPassword(){
-        return password;
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
 }
