@@ -29,10 +29,17 @@ public class AppConfig {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/insurance_db");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("0074");
+        String dbUrl = System.getenv().getOrDefault("SPRING_DATASOURCE_URL", "jdbc:postgresql://postgres:5432/insurance_db");
+        String dbUsername = System.getenv().getOrDefault("SPRING_DATASOURCE_USERNAME", "postgres");
+        String dbPassword = System.getenv().getOrDefault("SPRING_DATASOURCE_PASSWORD", "0074");
+        
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(dbUsername);
+        dataSource.setPassword(dbPassword);
+        dataSource.setValidationQuery("SELECT 1");
+        dataSource.setTestOnBorrow(true);
+        dataSource.setTestOnReturn(true);
+        dataSource.setTestWhileIdle(true);
         return dataSource;
     }
 
